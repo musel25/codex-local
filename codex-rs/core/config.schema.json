@@ -5860,6 +5860,11 @@
           "default": null,
           "description": "Working directory to use when resuming or forking a session. When unset, prompt if the current and session directories differ."
         },
+        "reveal_pdfs_in_file_manager": {
+          "default": false,
+          "description": "Local fork setting. Reveal local PDF links in Nautilus on Linux.",
+          "type": "boolean"
+        },
         "right_click_paste": {
           "allOf": [
             {

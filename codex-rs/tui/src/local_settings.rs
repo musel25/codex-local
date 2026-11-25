@@ -6,6 +6,7 @@
 //! Audio preferences exclude project layers so thread cwd cannot route local capture.
 //! Effective animations also respect the TUI host's launch-time accessibility preference.
 //! The selected transcript ownership and alternate-screen restrictions survive local reloads.
+//! The local fork also loads the setting for revealing PDFs in Nautilus.
 
 use crate::legacy_core::config::Config;
 use crate::legacy_core::config::ConfigTomlLoadResult;
@@ -79,6 +80,7 @@ impl LocalSettings {
                 fullscreen_transcript: config.tui_fullscreen_transcript,
                 collapse_turn_details: config.tui_collapse_turn_details,
                 sidebar_width_percent: config.tui_sidebar_width_percent,
+                reveal_pdfs_in_file_manager: config.tui_reveal_pdfs_in_file_manager,
                 mouse_scroll_speed: config.tui_mouse_scroll_speed,
                 copy_on_select: config.tui_copy_on_select,
                 copy_on_select_clear_selection: config.tui_copy_on_select_clear_selection,
