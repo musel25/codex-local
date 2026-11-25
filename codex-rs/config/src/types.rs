@@ -992,6 +992,10 @@ pub struct Tui {
     #[schemars(range(min = 1, max = 99))]
     pub sidebar_width_percent: Option<u8>,
 
+    /// Local fork setting. Reveal local PDF links in Nautilus on Linux.
+    #[serde(default)]
+    pub reveal_pdfs_in_file_manager: bool,
+
     /// Mouse wheel speed multiplier for transcript scrolling, based on one row per event.
     /// Defaults to `1.0`. Positive fractional values slow scrolling; values above `1.0` speed it up.
     #[serde(default, deserialize_with = "crate::tui_mouse_scroll::deserialize")]

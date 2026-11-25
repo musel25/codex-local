@@ -1,6 +1,9 @@
 //! Read-only Markdown previews use the focused thread's workspace and app-server.
+//! The Codex local fork can reveal PDFs in Nautilus.
 
 mod open_error;
+#[cfg(target_os = "linux")]
+mod pdf_reveal;
 
 use super::sidebar::PaneFocus;
 use super::sidebar::SidebarContent;
@@ -501,6 +504,32 @@ impl App {
         location: Option<SourceLocation>,
         focus: bool,
     ) -> Result<()> {
+        #[cfg(target_os = "linux")]
+        if focus
+            && self.local_settings.tui.reveal_pdfs_in_file_manager
+            && !server.uses_remote_workspace()
+            && let Ok(local_path) = path.to_abs_path()
+            && let Some(command) = pdf_reveal::command(local_path.as_path())
+        {
+            let tx = self.app_event_tx.clone();
+            tokio::spawn(async move {
+                let error = match tokio::process::Command::from(command)
+                    .stdout(std::process::Stdio::null())
+                    .stderr(std::process::Stdio::null())
+                    .status()
+                    .await
+                {
+                    Ok(status) if status.success() => return,
+                    Ok(status) => status.to_string(),
+                    Err(error) => error.to_string(),
+                };
+                let message = format!("Could not reveal {path} in Nautilus ({error})");
+                tx.send(AppEvent::InsertHistoryCell(Box::new(
+                    crate::history_cell::new_error_event(message),
+                )));
+            });
+            return Ok(());
+        }
         let Some(parent) = self.sidebar_parent() else {
             return Ok(());
         };
