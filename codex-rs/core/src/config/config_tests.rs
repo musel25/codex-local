@@ -1475,6 +1475,7 @@ fn config_toml_deserializes_model_availability_nux() {
             fullscreen_transcript: true,
             collapse_turn_details: false,
             sidebar_width_percent: None,
+            reveal_pdfs_in_file_manager: false, // Local fork setting.
             mouse_scroll_speed: None,
             copy_on_select: Default::default(),
             copy_on_select_clear_selection: false,
@@ -4822,6 +4823,7 @@ fn tui_config_missing_notifications_field_defaults_to_enabled() {
             fullscreen_transcript: true,
             collapse_turn_details: false,
             sidebar_width_percent: None,
+            reveal_pdfs_in_file_manager: false,
             mouse_scroll_speed: None,
             copy_on_select: Default::default(),
             copy_on_select_clear_selection: false,
